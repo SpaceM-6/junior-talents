@@ -377,6 +377,74 @@
         }
 
         /* 📱 تحسينات خاصة بالشاشات الصغيرة (الجوال والتابلت) */
+        /* Kids games */
+        .games-section {
+            padding: 4rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .games-section .intro {
+            text-align: center;
+            color: #6C757D;
+            max-width: 650px;
+            margin: -1rem auto 2rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .game-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+
+        .game-card:hover { transform: translateY(-5px); }
+
+        .game-card img {
+            width: 100%;
+            aspect-ratio: 1024 / 500;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-card .game-body {
+            padding: 1.25rem 1.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            flex: 1;
+        }
+
+        .game-card h3 { font-size: 1.35rem; }
+
+        .game-card p { color: #6C757D; font-size: 0.98rem; }
+
+        .game-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .game-tags span {
+            background: #EEF5FD;
+            color: var(--primary-color);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 2px 12px;
+            border-radius: 999px;
+        }
+
+        .game-card .btn-primary { margin-top: auto; }
+
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -426,6 +494,7 @@
                 <i class="fa-solid fa-rocket"></i> Junior Talents
             </div>
             <ul class="nav-links">
+                <li><a href="#games">ألعاب الأطفال</a></li>
                 <li><a href="#services">الخدمات</a></li>
                 <li><a href="#game-project">اللعبة القيمية</a></li>
                 <li><a href="#order">طلب خدمة</a></li>
@@ -440,6 +509,27 @@
             <h1>إبداع بلا حدود بأيدي الناشئين! 🎨🎙️</h1>
             <p>نقدم خدمات احترافية في التعليق الصوتي للأطفال، الرسم والتصميم المخصص، وبرمجة الألعاب البسيطة بأعلى جودة وشغف.</p>
             <a href="#services" class="btn-primary" style="padding: 0.8rem 2rem; font-size: 1.1rem;">استكشف خدماتنا</a>
+        </div>
+    </section>
+
+    <!-- Kids Games Section -->
+    <section class="games-section" id="games">
+        <h2 class="section-title">🎮 ألعاب الأطفال</h2>
+        <p class="intro">ألعاب آمنة وممتعة تغرس القيم الجميلة، تعمل مباشرة من المتصفح على الجوال والكمبيوتر بلا تثبيت ولا إعلانات.</p>
+        <div class="games-grid">
+            <article class="game-card">
+                <img src="games/layan-day/cover.jpg" alt="لعبة يوم ليان المميز" loading="lazy">
+                <div class="game-body">
+                    <h3>يوم ليان المميز</h3>
+                    <p>ست مهمات جميلة في حديقة ملونة: غسل اليدين، والغذاء الصحي، وترتيب الألعاب، والكلمة الطيبة، ومساعدة الأصدقاء، والأمانة. تخاطب اللعبة طفلك باسمه وبصيغته ولدًا كان أو بنتًا.</p>
+                    <div class="game-tags">
+                        <span>من ٣ إلى ١٢ سنة</span>
+                        <span>قيم وأخلاق</span>
+                        <span>مجانية</span>
+                    </div>
+                    <a href="games/layan-day/" class="btn-primary"><i class="fa-solid fa-play"></i> العب الآن</a>
+                </div>
+            </article>
         </div>
     </section>
 
