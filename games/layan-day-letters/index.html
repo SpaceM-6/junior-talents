@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#91d8e8" />
+  <title>يوم ليان المميز</title>
+  <script type="module" crossorigin src="./assets/index-piwIfxu0.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BY5ubvEy.css">
+</head>
+<body>
+  <canvas id="game-canvas" aria-label="عالم اللعبة"></canvas>
+
+  <div id="loading" class="loading">
+    <div class="loading-star">★</div>
+    <p>جارٍ تجهيز الحديقة…</p>
+  </div>
+
+  <button id="mute-btn" class="round-btn mute-btn" type="button" aria-label="كتم الصوت">♪</button>
+
+  <!-- شريط المهمة -->
+  <section id="hud" class="hud hidden" aria-live="polite">
+    <div class="quest-card">
+      <span id="quest-number" class="quest-number">المهمة ١ من ٦</span>
+      <h2 id="quest-title" class="quest-title"></h2>
+      <p id="quest-hint" class="quest-hint"></p>
+    </div>
+    <div class="hud-side">
+      <div class="star-pill"><span class="star-icon">★</span><span id="star-count">٠ / ٦</span></div>
+      <button id="pause-btn" class="round-btn" type="button" aria-label="إيقاف مؤقت">❚❚</button>
+    </div>
+  </section>
+
+  <!-- الشارات -->
+  <div id="badge-strip" class="badge-strip hidden">
+    <span class="badge" data-badge="clean" title="يدان نظيفتان">🧼</span>
+    <span class="badge" data-badge="food" title="غذاء ملوّن">🥕</span>
+    <span class="badge" data-badge="tidy" title="ألعابي مرتبة">🧸</span>
+    <span class="badge" data-badge="kind" title="كلمة لطيفة">💬</span>
+    <span class="badge" data-badge="help" title="صديق محبوب">🐰</span>
+    <span class="badge" data-badge="honest" title="الأمانة">🎒</span>
+  </div>
+
+  <!-- تلميح التفاعل -->
+  <div id="interaction-prompt" class="interaction-prompt hidden">
+    <kbd class="key-hint">E</kbd><span id="action-text"></span>
+  </div>
+
+  <!-- غسل اليدين -->
+  <div id="wash-panel" class="wash-panel hidden">
+    <p>🫧 نغسل اليدين بالماء والصابون…</p>
+    <div class="wash-bar"><div id="wash-fill" class="wash-fill"></div></div>
+  </div>
+
+  <!-- بطاقة الحروف -->
+  <div id="letter-card" class="letter-card hidden" aria-live="polite">
+    <div id="letter-big" class="letter-big"></div>
+    <div id="letter-pic" class="letter-pic"></div>
+    <div id="letter-word" class="letter-word"></div>
+  </div>
+
+  <!-- رسالة النجاح -->
+  <div id="toast" class="toast hidden" role="status">
+    <div class="toast-star">★</div>
+    <h3 id="toast-title"></h3>
+    <p id="toast-text"></p>
+  </div>
+
+  <!-- أزرار اللمس -->
+  <div id="mobile-controls" class="mobile-controls hidden">
+    <div id="joystick" class="joystick" aria-label="عصا التحريك"><div id="joystick-knob" class="joystick-knob"></div></div>
+    <button id="action-btn" class="action-btn" type="button" aria-label="تفاعل">✋</button>
+  </div>
+
+  <!-- نافذة الكلمة اللطيفة -->
+  <div id="choice-modal" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="panel">
+      <div class="panel-emoji">🥺</div>
+      <h2>سارة حزينة اليوم</h2>
+      <p data-m="ماذا تقول لها؟" data-f="ماذا تقولين لها؟"></p>
+      <div class="choices">
+        <button class="choice-btn" data-choice="rude" type="button" data-m="«ابتعدي، أنا مشغول»" data-f="«ابتعدي، أنا مشغولة»"></button>
+        <button class="choice-btn" data-choice="kind" type="button">«لا تحزني يا سارة، تعالي نلعب معًا!»</button>
+        <button class="choice-btn" data-choice="ignore" type="button">«لا يهمني الأمر»</button>
+      </div>
+      <p id="choice-feedback" class="choice-feedback" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- شاشة البداية -->
+  <div id="title-screen" class="overlay title-overlay hidden">
+    <div class="panel title-panel">
+      <div class="title-stars">★ ★ ★</div>
+      <h1>يوم ليان المميز</h1>
+      <p class="subtitle" data-m="أهلًا يا {name}! ست مهمات جميلة تنتظرك، فاجمع النجوم كلها!" data-f="أهلًا يا {name}! ست مهمات جميلة تنتظرك، فاجمعي النجوم كلها!"></p>
+      <button id="start-btn" class="big-btn" type="button" data-m="ابدأ اللعب ▶" data-f="ابدئي اللعب ▶"></button>
+      <p class="saved">الشارات المحفوظة: <span id="saved-count">٠ من ٦</span></p>
+      <button id="edit-profile-btn" class="link-btn" type="button">✏️ تغيير الاسم أو العمر</button>
+      <p class="controls-hint desktop-only">التحريك: الأسهم أو W A S D — التفاعل: E أو المسافة</p>
+    </div>
+  </div>
+
+  <!-- بيانات اللاعب -->
+  <div id="profile-screen" class="overlay hidden" role="dialog" aria-modal="true">
+    <form id="profile-form" class="panel profile-panel" novalidate>
+      <div class="title-stars">★ ★ ★</div>
+      <h2>أهلًا بك في «يوم ليان المميز»</h2>
+      <label class="field-label" for="player-name">ما اسمك؟</label>
+      <input id="player-name" class="name-input" type="text" maxlength="20" autocomplete="off" placeholder="اكتب اسمك هنا" />
+      <p class="field-label">هل أنت ولد أم بنت؟</p>
+      <div class="gender-row">
+        <button type="button" class="gender-btn" data-gender="boy"><span>👦</span>ولد</button>
+        <button type="button" class="gender-btn" data-gender="girl"><span>👧</span>بنت</button>
+      </div>
+      <p class="field-label">كم عمرك؟</p>
+      <div id="age-row" class="age-row"></div>
+      <p id="profile-error" class="choice-feedback" aria-live="polite"></p>
+      <button id="profile-save" class="big-btn" type="submit">هيا نبدأ! ★</button>
+      <p class="privacy-note">تُحفظ هذه البيانات على هذا الجهاز فقط، ولا تُرسَل إلى أي مكان.</p>
+    </form>
+  </div>
+
+  <!-- الإيقاف المؤقت -->
+  <div id="pause-screen" class="overlay hidden">
+    <div class="panel">
+      <h2>استراحة قصيرة ☕</h2>
+      <button id="resume-btn" class="big-btn" type="button">متابعة اللعب</button>
+      <button id="restart-btn" class="soft-btn" type="button" data-m="ابدأ اليوم من جديد" data-f="ابدئي اليوم من جديد"></button>
+      <button id="home-btn" class="soft-btn" type="button">الشاشة الرئيسية</button>
+    </div>
+  </div>
+
+  <!-- الفوز -->
+  <div id="victory-screen" class="overlay hidden">
+    <div class="panel victory-panel">
+      <div class="victory-emoji">🏆</div>
+      <h2 data-m="أحسنتَ يا {name}! أكملتَ كل المهمات" data-f="أحسنتِ يا {name}! أكملتِ كل المهمات"></h2>
+      <p>نظافة وغذاء صحي وترتيب، ولطف ومساعدة وأمانة. يوم رائع حقًا!</p>
+      <div class="victory-badges">🧼 🥕 🧸 💬 🐰 🎒</div>
+      <button id="play-again-btn" class="big-btn" type="button" data-m="العب مرة أخرى" data-f="العبي مرة أخرى"></button>
+      <button id="victory-home-btn" class="soft-btn" type="button">الشاشة الرئيسية</button>
+    </div>
+  </div>
+
+</body>
+</html>
